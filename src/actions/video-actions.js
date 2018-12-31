@@ -1,3 +1,7 @@
+import {
+  TOGGLE_ADD_FORM,
+} from '../constants.js'
+
 export const getVideoRequest = () => {
   return (dispatch) => {
     dispatch({
@@ -28,12 +32,22 @@ export const getVideoFailure = (error) => {
   }
 }
 
-
 export const toggleTeaser = () => {
   console.log("action: toggleTeaser")
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: 'TOGGLE_TEASER',
     })
+  }
+}
+
+/* *****************************************************
+*  toggleAddFormAC()
+*  Called by Main component Add Form button to toggle Add Form visibility
+******************************************************** */
+export const toggleAddFormAC = () => {
+  console.log("toggleAddFormAC()");
+  return {
+    type: TOGGLE_ADD_FORM,
   }
 }

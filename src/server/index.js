@@ -25,8 +25,10 @@ app.get('/sample-video', async (req, res, next) => {
     console.log('\n Got data for: ', response.title, '\n')
     res.send(response)
   } catch (error) {
+    console.log("ERROR: ", error.toString());
     const status = error && error.response && error.response.status
-    const message = error && error.response && error.response.data && error.response.data.message
+    let message = error && error.response && error.response.data && error.response.data.message
+    message = error.toString();
     res.status(status).send({
       message,
     })

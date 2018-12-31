@@ -1,8 +1,8 @@
 
 const initialState = {
   processing: false,
-  showingTeaser: false
-}
+  showingTeaser: false,
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -10,26 +10,26 @@ export default (state = initialState, action) => {
       return {
         ...state,
         processing: true,
-      }
+      };
     case 'GET_VIDEO_SUCCESS':
       return {
         ...state,
         processing: false,
         data: action.payload.data,
         error: null,
-      }
+      };
     case 'GET_VIDEO_FAILURE':
       return {
         ...state,
         processing: false,
         error: action.payload.error,
-      }
+      };
     case 'TOGGLE_TEASER':
       return {
         ...state,
-        showingTeaser: !state.showingTeaser
-      }
+        showingTeaser: !state.showingTeaser,
+      };
     default:
-      return state
+      return state;
   }
-}
+};

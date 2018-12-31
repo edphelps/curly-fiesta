@@ -4,7 +4,7 @@ import { toggleTeaser } from '../actions/video-actions'
 import { Row, Button } from 'react-materialize'
 import './tile.css'
 
-export class Tile extends React.Component{
+class Tile extends React.Component{
 
   formatHrs = (totalSeconds) => {
     const hrs = Math.floor(((totalSeconds/60)/60))
@@ -20,7 +20,15 @@ export class Tile extends React.Component{
     return `${mins} ${sOrNoS}`
   }
 
+  onclick = (e) => {
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
+    console.log('Tile::onclick(), this.props: ', this.props);
+    // this.props.dispatch(toggleTeaser());
+    this.props.toggleTeaser();
+  }
+
   render(){
+    console.log("-- tile::render(), props: ", this.props);
     const {
       tileArt,
       title,
@@ -28,19 +36,26 @@ export class Tile extends React.Component{
       seriesName,
       seasonNum,
       episodeNum,
-      durationSeconds
-    } = this.props.props
+      durationSeconds,
+    } = this.props.video.data;
+    const { showingTeaser } = this.props.video;
+
     console.log("this.props:", this.props)
+    console.log("showingTeaser:", showingTeaser)
     return(
       <div className='tile container'>
         <div className='art'>
           <Row><img className='image' src={tileArt} alt="episode"/></Row>
         <div className='action-buttons'>
             <div>
-              <Button floating small waves='light' icon='play_arrow'/>
+              <Button floating waves='light' icon='play_arrow'/>
             </div>
             <div>
-              <Button floating small className='blue-grey darken-2' waves='light' icon='more_horiz' onClick={this.props.toggleTeaser()}
+              <Button
+                floating className='blue-grey darken-2'
+                waves='light'
+                icon='more_horiz'
+                onClick={this.onclick}
               />
             </div>
           </div>
@@ -48,18 +63,21 @@ export class Tile extends React.Component{
         <div className='info-section'>
           <Row className='series-name'><span>{seriesName}</span></Row>
           <Row><span>{title}</span></Row>
-          <Row><span>{teaser}</span></Row>
+          {showingTeaser && (
+            <Row><span>{teaser}</span></Row>
+          )}
           <Row><span>S{seasonNum}:Ep{episodeNum} | {this.formatHrs(durationSeconds)} {this.formatMins(durationSeconds)}</span></Row>
         </div>
       </div>
     )
   }
-
 }
 
 const mapStateToProps = (state) => {
+  console.log("*** Tile::mapStateToProps(), state: ", state);
   return {
-    showingTeaser: state.showingTeaser
+    showingTeaser: state.toggleTeaser,
+    video: state.video,
   }
 }
 
@@ -70,3 +88,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tile);
+// export default connect(mapStateToProps, null)(Tile);
